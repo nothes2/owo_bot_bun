@@ -1,0 +1,17 @@
+{
+  "name": "ticket_bot",
+  "module": "index.ts",
+  "type": "module",
+  "main": "src/index.ts",
+
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7"
+  }
+}
