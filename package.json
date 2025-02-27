@@ -1,9 +1,8 @@
 {
-  "name": "ticket_bot",
+  "name": "potofu_bot_bun",
   "module": "index.ts",
   "type": "module",
   "main": "src/index.ts",
-
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -12,6 +11,9 @@
   },
   "dependencies": {
     "discord.js": "^14.17.3",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "i18next": "^24.2.2",
+    "mathjs": "^14.2.0",
+    "mongodb": "^6.13.0"
   }
 }
