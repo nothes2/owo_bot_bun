@@ -27,7 +27,8 @@
     "baseUrl": "./src",
     "paths": {
       "@features/*": ["features/*"],
-      "@core/*": ["core/*"]
+      "@core/*": ["core/*"],
+      "@assets/*": ["assets/*"]
     }
   }
 }

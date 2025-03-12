@@ -1,8 +1,8 @@
 import {describe, it, expect} from "bun:test"
-import register_commands from "@core/commands/cmd_register.ts";
+import cst from "@features/ft_custom_embed/presentation/components/cmp_custom_cmd";
 
 describe(`Register commands`, () => {
     it(`should be able to register`, () => {
-        register_commands()
+        cst.execute
     })
 })

@@ -1,6 +1,5 @@
 import {Client} from "discord.js";
 
-import {commands} from "@features/ft_admin/presentation/admin.ts"
 import type {Feature} from "@core/type/type_general.ts";
 import {feature_loop, file_detector} from "@core/commands/cmd_file_util.ts";
 
@@ -22,13 +21,6 @@ async function setupCommandHandler(client: Client) {
     client.on("interactionCreate", async (interaction) => {
         if (!interaction.isCommand()) return;
 
-        if (!commands) {
-            interaction.reply(
-                "❌ Not a command!",
-            )
-            return;
-        }
-
         try {
             for (const command of g_commands) {
                 if (interaction.commandName === command.command.name) {
@@ -38,9 +30,6 @@ async function setupCommandHandler(client: Client) {
             }
         } catch (error) {
             console.error(`❌ Error executing ${interaction.commandName}:`, error);
-            await interaction.reply({
-                content: "❌ There was an error executing the command, please try again later.",
-            });
         }
     });
 }

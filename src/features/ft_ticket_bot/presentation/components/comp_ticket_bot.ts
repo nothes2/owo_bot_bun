@@ -1,0 +1,59 @@
+import {type CommandInteraction, SlashCommandBuilder} from "discord.js";
+import {execute as setEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_set_ticket_emebed.ts"
+import global_client from "@core/bot_client.ts";
+
+
+const command = new SlashCommandBuilder()
+    .setName("ticket_bot")
+    .setDescription("ticket bot command list")
+    .addSubcommand(
+        command => command
+            .setName("set_ticket_embed")
+            .setDescription("init a embed for ur ticket bot"))
+    .addSubcommand(
+        command => command
+            .setName("query_embed")
+            .setDescription("query the embed u created")
+            .addStringOption(
+                option => option
+                    .setName("title")
+                    .setDescription(("query the embed by title"))
+                    .setRequired(false)))
+    .addSubcommand(
+        command => command
+            .setName("show_embed")
+            .setDescription("show the ticket embed")
+            .addStringOption(option => option
+                .setName("title")
+                .setDescription("query the embed by title")
+                .setRequired(false))
+    )
+
+
+const execute = async (interaction: CommandInteraction) => {
+
+    if (!(interaction.commandName === "ticket_bot")) {
+        return
+    }
+
+    const sub_command = interaction.options.getSubcommand()
+
+    await command_resolve(sub_command, interaction)
+
+}
+
+
+const command_resolve = async (subcommand: string, interaction: CommandInteraction) => {
+    switch (subcommand) {
+        case "set_ticket_embed":
+            await setEmbedExec(interaction);
+            break
+
+    }
+}
+
+export default {
+    command,
+    execute
+}
+

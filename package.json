@@ -2,17 +2,23 @@
   "name": "potofu_bot_bun",
   "module": "index.ts",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "src/bot.ts",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
+  "scripts": {
+    "dev": "bun run src/bot.ts"
+  },
   "dependencies": {
     "discord.js": "^14.17.3",
     "dotenv": "^16.4.7",
+    "elysia": "^1.2.25",
+    "eslint": "^9.22.0",
     "i18next": "^24.2.2",
+    "mangodb": "^1.0.0",
     "mathjs": "^14.2.0",
     "mongodb": "^6.13.0"
   }

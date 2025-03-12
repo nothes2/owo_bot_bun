@@ -1,9 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type {Feature} from "@core/type/type_general.ts";
-import {type CommandInteraction, PermissionsBitField} from "discord.js";
-import {e} from "mathjs";
-import * as process from "node:process";
+
 const dir_features = path.join(__dirname, '../../features')
 
 export const file_detector = async () => {
@@ -59,14 +57,4 @@ export const feature_loop = (features: Feature[], g_commands: Feature[]) => {
     features.forEach((feature: Feature) => {
         g_commands.push(feature)
     })
-}
-
-export const has_admin_role =  async (interaction: CommandInteraction): Promise<boolean> => {
-    const member = await interaction.guild!.members.fetch(interaction.user.id)
-
-    if(!member || !member.roles) {
-        return false
-    }
-
-    return member.roles.cache.some(role => (role.permissions.has(PermissionsBitField.Flags.Administrator)))
 }

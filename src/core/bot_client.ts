@@ -1,6 +1,6 @@
 import {Client, IntentsBitField} from "discord.js";
 
-const createClient = () => {
+export const global_client = () => {
     return new Client({
         intents: [
             IntentsBitField.Flags.Guilds,
@@ -12,4 +12,3 @@ const createClient = () => {
     });
 };
 
-export default createClient;
