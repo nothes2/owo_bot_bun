@@ -1,7 +1,7 @@
 import {EmbedRepo} from "@features/ft_custom_embed/data/repositories/embed_repo.ts";
 import {CreateEmbed, QueryEmbed} from "@features/ft_custom_embed/domain/usecases/uc_cst_embed.ts";
 import {CustomEmbed} from "@features/ft_custom_embed/domain/entities/custom_embed.ts";
-import type {ClassEmbed} from "@core/type/type_general.ts";
+import type {ClassEmbed} from "@core/data/general.ts";
 
 const embed_repo = new EmbedRepo()
 

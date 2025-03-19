@@ -1,10 +1,27 @@
-import {AddTicketEmbed} from "@features/ft_ticket_bot/domain/usecases/sc_ticket_bot.ts";
-import {RepoTicketBot} from "@features/ft_ticket_bot/data/repositories/repo_ticket_bot.ts";
-import type {ClassEmbed} from "@core/type/type_general.ts";
+import { TicketEmbedRepo } from "@features/ft_ticket_bot/data/repositories/repo_ticket_embed";
+import {TicketEmbed} from "@features/ft_ticket_bot/domain/entities/ticket_embed.ts";
+import {
+    CreateTicketEmbed,
+    QueryAllEmbedByUser,
+    UpdateTicketEmbed
+} from "@features/ft_ticket_bot/domain/usecases/uc_ticket_embed";
 
-const ticketEmbedRepo = new RepoTicketBot()
+export const addTicketController = async (embed: TicketEmbed) => {
+    const ticketEmbedRepo = new TicketEmbedRepo()
+    const create_embed = new CreateTicketEmbed(ticketEmbedRepo)
+   
+    return await create_embed.execute(embed)
+}
 
-export const addTicketController = (embed: ClassEmbed) => {
-    const add_ticket_embed = new AddTicketEmbed(ticketEmbedRepo)
-    return add_ticket_embed.execute(embed)
+export const updateTicketEmbedController = async (embed: TicketEmbed) => {
+    const ticketEmbedRepo = new TicketEmbedRepo()
+    const update_embed = new UpdateTicketEmbed(ticketEmbedRepo)
+
+    return await update_embed.execute(embed)
+}
+
+export const queryTicketController = async (user_id: string) => {
+    const ticketEmbedRepo = new TicketEmbedRepo()
+    const query_embed = new QueryAllEmbedByUser(ticketEmbedRepo)
+    return await query_embed.execute(user_id)
 }

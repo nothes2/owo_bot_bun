@@ -1,7 +1,7 @@
 import {REST, Routes, SlashCommandBuilder, type SlashCommandOptionsOnlyBuilder} from "discord.js";
 
-import type {Feature} from "@core/type/type_general.ts";
-import {file_detector} from "@core/commands/cmd_file_util.ts";
+import type {Feature} from "@core/data/general.ts";
+import {file_detector} from "@core/utils/cmd_file_util.ts";
 
 const g_commands: SlashCommandBuilder[] = []
 
@@ -11,7 +11,6 @@ const feature_loop = (features:  Feature[]) => {
 
         if(feature && feature.command) {
             g_commands.push(feature.command)
-            console.log(feature.command.name)
         }
     })
 }

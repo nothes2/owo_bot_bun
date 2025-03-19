@@ -1,18 +1,13 @@
-import {
-    type APIEmbedImage,
-    type APIEmbedThumbnail,
-    CommandInteraction,
-    EmbedBuilder,
-    SlashCommandBuilder
-} from "discord.js";
-
-export interface Feature {
-    command: SlashCommandBuilder;
-    execute(interaction: CommandInteraction): Promise<void>;
-}
+import {type APIEmbedImage, type APIEmbedThumbnail, EmbedBuilder, SlashCommandBuilder} from "discord.js";
 
 export type hexColor = number
 export type url = string
+
+export interface Feature {
+    command: SlashCommandBuilder;
+
+    execute(interaction: any): Promise<void>;
+}
 
 export class ClassEmbed {
     constructor(
@@ -35,6 +30,16 @@ export class ClassEmbed {
         }
     ) {
 
+    }
+}
+
+export class ClassStringSelectMenuOption {
+    constructor(
+        public label: string,
+        public description: string,
+        public value: string,
+        public channel_id?: string
+    ) {
     }
 }
 

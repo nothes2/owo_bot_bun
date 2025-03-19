@@ -1,5 +1,4 @@
 import {
-    CommandInteraction,
     PermissionsBitField,
     SlashCommandBuilder
 } from "discord.js";
@@ -15,7 +14,7 @@ const command = new SlashCommandBuilder()
     .addSubcommand(command => command.setName("query").setDescription("query customized embed").addStringOption(option => option.setName("command_name").setDescription("query by command name").setRequired(false)))
     .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
 
-const execute = async (interaction: CommandInteraction) => {
+const execute = async (interaction: any) => {
     if(interaction.options.getSubcommand() === "create")
     {
         const command_name = interaction.options.get("command_name")

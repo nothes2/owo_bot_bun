@@ -1,7 +1,7 @@
 import {MongoClient} from "mongodb"
 
 export class MongoDBClient {
-    private static client: MongoClient;
+    private static client: MongoClient | null = null;
 
     static async connect(uri: string) {
         if(this.client) return this.client
@@ -10,7 +10,15 @@ export class MongoDBClient {
             maxPoolSize: 100,
             connectTimeoutMS: 8000
         })
+
+        try{
         await this.client.connect()
+        console.log("mango connect successfully ");
+        } catch(error) {
+            console.error(error);
+            this.client = null
+            throw error
+        }
 
         return this.client
     }

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import type {Feature} from "@core/type/type_general.ts";
+import type {Feature} from "@core/data/general.ts";
 
 const dir_features = path.join(__dirname, '../../features')
 

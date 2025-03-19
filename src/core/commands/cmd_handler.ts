@@ -1,7 +1,7 @@
 import {Client} from "discord.js";
 
-import type {Feature} from "@core/type/type_general.ts";
-import {feature_loop, file_detector} from "@core/commands/cmd_file_util.ts";
+import type {Feature} from "@core/data/general.ts";
+import {feature_loop, file_detector} from "@core/utils/cmd_file_util.ts";
 
 const g_commands: Feature[] = [];
 

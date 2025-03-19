@@ -7,7 +7,7 @@ import {
 import {embed_builder, menu_create, regex_match} from "@core/utils/utils";
 import {createEmbedController} from "@features/ft_custom_embed/presentation/controller/c_embed.ts";
 import {handle_option} from "@features/ft_custom_embed/presentation/components/cmp_embed_selection.ts";
-import {embed_data} from "@core/type/type_general.ts";
+import {embed_data} from "@core/data/general.ts";
 
 export default async function create_embed(interaction: CommandInteraction, command_name?: string) {
 
@@ -31,7 +31,7 @@ export default async function create_embed(interaction: CommandInteraction, comm
         return
     }
 
-    const menu = menu_create(command_name)
+    const menu = menu_create(true, false)
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
         menu
     )

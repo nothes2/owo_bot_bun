@@ -1,6 +1,6 @@
 import {type CommandInteraction, SlashCommandBuilder} from "discord.js";
 import {execute as setEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_set_ticket_emebed.ts"
-import global_client from "@core/bot_client.ts";
+import {execute as showEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_show_ticket_embed.ts"
 
 
 const command = new SlashCommandBuilder()
@@ -21,7 +21,7 @@ const command = new SlashCommandBuilder()
                     .setRequired(false)))
     .addSubcommand(
         command => command
-            .setName("show_embed")
+            .setName("show_ticket_embed")
             .setDescription("show the ticket embed")
             .addStringOption(option => option
                 .setName("title")
@@ -30,7 +30,7 @@ const command = new SlashCommandBuilder()
     )
 
 
-const execute = async (interaction: CommandInteraction) => {
+const execute = async (interaction: any) => {
 
     if (!(interaction.commandName === "ticket_bot")) {
         return
@@ -48,6 +48,8 @@ const command_resolve = async (subcommand: string, interaction: CommandInteracti
         case "set_ticket_embed":
             await setEmbedExec(interaction);
             break
+        case "show_ticket_embed":
+            await showEmbedExec(interaction);
 
     }
 }

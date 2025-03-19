@@ -1,4 +1,4 @@
-import {ClassEmbed} from "@core/type/type_general.ts";
+import {ClassEmbed} from "@core/data/general.ts";
 
 export class CustomEmbed {
     constructor(
