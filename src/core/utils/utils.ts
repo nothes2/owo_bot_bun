@@ -52,6 +52,7 @@ export const embed_builder = (embedData?: ClassEmbed) => {
     if (embedData.thumbnail) embed.setThumbnail(embedData.thumbnail.url);
     if (embedData.image) embed.setImage(embedData.image.url);
 
+
     if (embedData.author) {
         embed.setAuthor({
             name: embedData.author.name,
@@ -75,18 +76,19 @@ export const embed_builder = (embedData?: ClassEmbed) => {
 };
 
 export const embed_options = [
-    { label: 'command', description: 'change the command name', value: 'command' },
-    { label: 'Color', description: 'Change the embed color', value: 'color' },
-    { label: 'Title', description: 'Change the embed title', value: 'title' },
-    { label: 'URL', description: 'Change the embed URL', value: 'url' },
-    { label: 'Thumbnail', description: 'Change the thumbnail URL', value: 'thumbnail' },
-    { label: 'Image', description: 'Change the image URL', value: 'image' },
-    { label: 'Author', description: 'Change the author', value: 'author' },
-    { label: 'Description', description: 'Change the description', value: 'description' },
-    { label: 'Fields', description: 'Change the fields', value: 'fields' },
-    { label: 'Timestamp', description: 'Change the timestamp', value: 'timestamp' },
-    {label: 'Footer', description: 'Change the footer', value: 'footer'},
-    {label: 'Menu', description: 'setting the menu option', value: 'menu'}
+    { label: 'command', description: 'change the command name', value: 'command', emoji: '🔥'},
+    { label: 'Color', description: 'Change the embed color', value: 'color', emoji: ':art:' },
+    { label: 'Title', description: 'Change the embed title', value: 'title', emoji: ':pushpin:' },
+    { label: 'URL', description: 'Change the embed URL', value: 'url', emoji: ':safety_pin:' },
+    { label: 'Thumbnail', description: 'Change the thumbnail URL', value: 'thumbnail', emoji: ':iphone:' },
+    { label: 'Image', description: 'Change the image URL', value: 'image', emoji: ':frame_photo:' },
+    { label: 'Author', description: 'Change the author', value: 'author', emoji: ':writing_hand:' },
+    { label: 'Description', description: 'Change the description', value: 'description', emoji: ':bookmark_tabs:' },
+    { label: 'Fields', description: 'Change the fields', value: 'fields', emoji: ':notepad_spiral:' },
+    { label: 'Timestamp', description: 'Change the timestamp', value: 'timestamp', emoji: ':clock1:' },
+    {label: 'Footer', description: 'Change the footer', value: 'footer', emoji: ':books:' },
+    {label: 'Menu', description: 'setting the menu option', value: 'menu', emoji: ':scroll:' },
+    {label: 'Comment', description: 'setting a comment for you to search you embed', value: 'comment', emoji: ':memo:'},
 ]
 
 export function menu_create(command?: boolean, menu?: boolean) {
@@ -101,6 +103,7 @@ export function menu_create(command?: boolean, menu?: boolean) {
                         .setLabel(option.label)
                         .setDescription(option.description)
                         .setValue(option.value)
+                        .setEmoji(option.emoji)
                 )
         )
 }
@@ -112,6 +115,12 @@ export function embed_handle(interaction: Interaction) {
     embed_modal(interaction, options)
 }
 
+export function ticket_modal(interaction: Interaction, option: string) {
+    if (!(interaction.isStringSelectMenu())) return
+
+}
+
+// modal for custom embed
 export function embed_modal(interaction: Interaction, option: string) {
 
     const global = getGlobalVariable("ticket_embed");
@@ -121,8 +130,8 @@ export function embed_modal(interaction: Interaction, option: string) {
     const modal = new ModalBuilder().setCustomId(option).setTitle(`Edit ${option}`);
     const rows: ActionRowBuilder<any>[] = [];
 
-    const addTextInput = (id: string, label: string, value?: string) => {
-        const input = new TextInputBuilder().setCustomId(id).setLabel(label).setStyle(TextInputStyle.Short).setValue(value?.toString() ?? "").setRequired(false);
+    const addTextInput = (id: string, label: string, value: string) => {
+        const input = new TextInputBuilder().setCustomId(id).setLabel(label).setStyle(TextInputStyle.Short).setValue(value).setRequired(false);
         rows.push(new ActionRowBuilder<any>().addComponents(input));
     };
 
@@ -148,11 +157,11 @@ export function embed_modal(interaction: Interaction, option: string) {
         }
             break;
         case "footer":
-            addTextInput(`text_${option}_text`, "Text", global.embed.footer.text);
-            addTextInput(`text_${option}_iconURL`, "Icon URL", global.embed.footer.icon_url);
+            addTextInput(`text_${option}_text`, "Text", isObjectNotNull(global.embed.footer, "text"));
+            addTextInput(`text_${option}_iconURL`, "Icon URL", isObjectNotNull(global.embed.footer, "iconURL"));
             break;
         case "color":
-            addTextInput(`text_color`, "Color", global.embed["color"].toString(16));
+            addTextInput(`text_color`, "Color",  parseInt(isObjectNotNull(global.embed.color)).toString(16));
             break;
         case "menu": {
             let value = ""
@@ -171,19 +180,29 @@ export function embed_modal(interaction: Interaction, option: string) {
             );
         }
             break;
-        case "thumbnail":
-            addTextInput(`text_${option}`, option, global.embed.thumbnail.url);
+        case "thumbnail" : {
+            addTextInput(`text_${option}`, option, isObjectNotNull(global.embed.thumbnail, "url"))
+        }
             break
         case "image":
-            addTextInput(`text_${option}`, option, global.embed.image.url);
+            addTextInput(`text_${option}`, option, isObjectNotNull(global.embed.image, "url"));
             break
-
+        case "comment":
+            addTextInput(`text_${option}`, option, global.comment);
+            break;
         default:
-            addTextInput(`text_${option}`, option, global.embed[option]);
+            addTextInput(`text_${option}`, option, isObjectNotNull(global.embed[option]));
     }
 
     modal.addComponents(rows);
     interaction.showModal(modal);
+}
+
+export function isObjectNotNull(data: any, name?: string): string {
+    if(!name) {
+        return data ? data : ""
+    }
+    return data ? data[name] : "";
 }
 
 export function isValidHexColor(hex: string): boolean {

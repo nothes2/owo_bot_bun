@@ -1,4 +1,4 @@
-import {type APIEmbedImage, type APIEmbedThumbnail, EmbedBuilder, SlashCommandBuilder} from "discord.js";
+import {type APIEmbedImage, type APIEmbedThumbnail, type APIEmbed, type APIActionRowComponent, type APIMessageActionRowComponent,EmbedBuilder, SlashCommandBuilder} from "discord.js";
 
 export type hexColor = number
 export type url = string
@@ -7,6 +7,29 @@ export interface Feature {
     command: SlashCommandBuilder;
 
     execute(interaction: any): Promise<void>;
+}
+
+export class ClassMessage {
+
+    constructor(
+        public messageId: string,
+        public channelID: string,
+        public content: string,
+        public embeds: APIEmbed[],
+        public guildID: string,
+        public components: ClassStringMenuSelection
+    ) {}
+}
+
+
+export class ClassStringMenuSelection {
+    constructor(
+        public custom_id: string,
+        public placeholder: string,
+        public options: ClassStringSelectMenuOption[],
+        public disabled?: boolean,
+    ) {
+    }
 }
 
 export class ClassEmbed {
@@ -38,6 +61,8 @@ export class ClassStringSelectMenuOption {
         public label: string,
         public description: string,
         public value: string,
+        public emoji: string,
+        public isDefault?: boolean,
         public channel_id?: string
     ) {
     }

@@ -1,4 +1,4 @@
-import {type CommandInteraction, EmbedBuilder} from "discord.js";
+import {type CommandInteraction, EmbedBuilder, StringSelectMenuOptionBuilder} from "discord.js";
 import {queryTicketController} from "@features/ft_ticket_bot/presentation/controller/c_ticket_bot.ts";
 import {setGlobalVariable} from "@core/global_variables.ts";
 import {TicketEmbed} from "@features/ft_ticket_bot/domain/entities/ticket_embed.ts";
@@ -23,9 +23,10 @@ export const execute = async (interaction: CommandInteraction) => {
         index: number
     }[] = []
 
+
     for (const value of result) {
         const user =  await interaction.client.users.fetch(value.user_id)
-        content_str = `${index} | ${value._id} | ${user.username} | ${value.comment}`
+        content_str += `${index} | ${value._id} | ${user.username} | ${value.comment}\n`
         data_group.push({data: value, index})
         index++
     }

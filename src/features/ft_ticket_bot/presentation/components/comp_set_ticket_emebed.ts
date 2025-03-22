@@ -17,6 +17,7 @@ let action =
     label: "label",
     description: "description",
     value: "value",
+    emoji: ":information:",
     channel_id: "channel_id",
 }
 

@@ -1,12 +1,13 @@
 import {MongoDBClient} from "@core/db/mongodbClient";
 import type {TicketEmbed} from "@features/ft_ticket_bot/domain/entities/ticket_embed";
-import type {IfTicketEmbedRepo} from "@features/ft_ticket_bot/domain/interfaces/if_ticket_embed_repo.ts";
+import type {TicketEmbedInterface} from "@features/ft_ticket_bot/domain/interfaces/if_ticket_embed.ts";
 import {getGlobalVariable, setGlobalVariable} from "@core/global_variables.ts";
 
-export class TicketEmbedRepo implements IfTicketEmbedRepo {
+export class TicketEmbedRepo implements TicketEmbedInterface {
 
     private collection
     private client
+
     constructor() {
          this.client = MongoDBClient.getClient()
         this.collection = this.client.db("rural_shop").collection("ticket_embed")
@@ -24,10 +25,11 @@ export class TicketEmbedRepo implements IfTicketEmbedRepo {
             user_id: embed.user_id,
             embed: embed.embed,
             menu_item: embed.menu_item,
-            placeholder: embed.placeholder
+            placeholder: embed.placeholder,
+            comment: embed.comment,
         })
 
-        if(!result.acknowledged) {
+        if (!result.acknowledged) {
             return false;
         }
 
@@ -45,7 +47,8 @@ export class TicketEmbedRepo implements IfTicketEmbedRepo {
                 "user_id": embed.user_id,
                 "embed": embed.embed,
                 "menu_item": embed.menu_item,
-                "placeholder": embed.placeholder
+                "placeholder": embed.placeholder,
+                "comment": embed.comment,
             }
         }
 

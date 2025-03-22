@@ -20,10 +20,10 @@ import type {SelectItem} from "@features/ft_ticket_bot/data/type/general.ts";
 let global
 
 
-export function handle_select_menu(client: Client) {
-    
+export async function handle_select_menu(client: Client) {
     client.on("interactionCreate", async (interaction: Interaction) => {
-        if(!(interaction.isStringSelectMenu())) return 
+        if(!(interaction.isStringSelectMenu())) return
+        console.log(interaction.customId);
         switch (interaction.customId) {
             case "embed":
                 embed_handle(interaction);break
@@ -40,7 +40,6 @@ async function ticket_menu_handle(interaction: Interaction) {
     if(!interaction.isStringSelectMenu()) return;
 
     let ticket_code_str = getGlobalVariable("ticket_code");
-
     let ticket_code = parseInt(ticket_code_str)
     ticket_code++
     setGlobalVariable("ticket_code", format_ticket_code(ticket_code, 4));
@@ -75,7 +74,7 @@ async function ticket_menu_handle(interaction: Interaction) {
         SendMessages: true
     })
 
-    new_channel.send(`@here`)
+    new_channel.send(`new ticket create successfully !`)
 }
 
 export function handle_modal_submit(client: Client) {
@@ -94,8 +93,6 @@ export function handle_modal_submit(client: Client) {
         }
     });
 }
-
-
 
 async function generic_handle(interaction: any, type: string) {
     const fieldKeys: Record<string, string[]> = {
@@ -129,10 +126,34 @@ async function generic_handle(interaction: any, type: string) {
         case "menu":
             await handle_menu_item(interaction, values);
             break;
+        case "comment":
+            await handle_comment(interaction, values[0]);
+            break;
         default:
             await handle_generic(type, interaction, values[0]);
             break;
     }
+}
+async function handle_comment(interaction: any, value: string | null) {
+    global = getGlobalVariable("ticket_embed");
+    if(!value) {
+        interaction.reply({
+            content: "❌ you need a comment !",
+            flags: MessageFlagsBitField.Flags.Ephemeral,
+        })
+        return
+    }
+
+    global.comment = value
+    setGlobalVariable("ticket_embed", global)
+    if (!await updateTicketEmbedController(global)) {
+        console.error("modified error")
+        return
+    }
+
+    interaction.update({
+        embeds: [embed_builder(global.embed)]
+    })
 }
 
 async function handle_color(interaction: any, value: string | null) {
@@ -323,7 +344,7 @@ async function handle_menu_item(interaction: any, values: (string | null)[]) {
     )
     const row = new ActionRowBuilder().addComponents(menu)
 
-    interaction.update({
+    await interaction.update({
         embeds: [embed_builder(global.embed)],
         components: [row.toJSON(), getGlobalVariable('update_row')],
     })

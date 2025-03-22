@@ -1,6 +1,7 @@
 import {type CommandInteraction, SlashCommandBuilder} from "discord.js";
 import {execute as setEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_set_ticket_emebed.ts"
-import {execute as showEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_show_ticket_embed.ts"
+import {execute as queryEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_query_ticket_embed.ts"
+import {execute as showEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_show_ticket.ts"
 
 
 const command = new SlashCommandBuilder()
@@ -21,12 +22,20 @@ const command = new SlashCommandBuilder()
                     .setRequired(false)))
     .addSubcommand(
         command => command
-            .setName("show_ticket_embed")
-            .setDescription("show the ticket embed")
-            .addStringOption(option => option
-                .setName("title")
+            .setName("query_ticket_embed")
+            .setDescription("query the ticket embed")
+            .addBooleanOption(option => option
+                .setName("all")
                 .setDescription("query the embed by title")
                 .setRequired(false))
+    ).addSubcommand(
+        command => command.setName("show_ticket_embed")
+            .setDescription("please use show_ticket_embed first before using INDEX to search")
+            .addStringOption(option =>
+                option
+                    .setName("index")
+                    .setDescription("query the embed by index")
+                    .setRequired(false))
     )
 
 
@@ -48,6 +57,9 @@ const command_resolve = async (subcommand: string, interaction: CommandInteracti
         case "set_ticket_embed":
             await setEmbedExec(interaction);
             break
+        case "query_ticket_embed":
+            await queryEmbedExec(interaction);
+            break;
         case "show_ticket_embed":
             await showEmbedExec(interaction);
 

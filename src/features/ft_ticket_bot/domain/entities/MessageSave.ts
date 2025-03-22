@@ -1,8 +1,8 @@
-import type {Message} from "discord.js";
+import type {ClassMessage} from "@core/data/general.ts";
 
 export class MessageSave {
     constructor(
-        public message: Message,
+        public message: ClassMessage,
         public _id?: string,
     ) {
     }

@@ -13,7 +13,7 @@ export class MongoDBClient {
 
         try{
         await this.client.connect()
-        console.log("mango connect successfully ");
+        console.info(`✅ database connect successfully`);
         } catch(error) {
             console.error(error);
             this.client = null
@@ -24,7 +24,7 @@ export class MongoDBClient {
     }
 
     static getClient() {
-        if (!this.client) throw new Error("mongodb client is not connected");
+        if (!this.client) throw new Error(`❌ database client connection failed`);
         return this.client
     }
 
@@ -32,7 +32,12 @@ export class MongoDBClient {
         if(this.client) {
             await this.client.close()
             this.client = null!
-            console.log("MongoDB connection closed")
+            console.info(`ℹ️ database connection closed`)
         }
     }
 }
+
+process.on("SIGINT", async () => {
+    await MongoDBClient.close();
+    process.exit(0);
+});

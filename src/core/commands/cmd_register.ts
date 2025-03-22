@@ -33,7 +33,7 @@ const register_command = async (): Promise<void> => {
         await rest.put(Routes.applicationCommands(
             process.env.CLIENT_ID ?? ""
         ), {body: g_commands});
-        console.info("✅ Successfully registered all commands!");
+        console.info(`✅ Successfully registered all commands!`);
     } catch (e) {
         console.error(`❌ Error happened in commands Registration: ${e}`);
     }
