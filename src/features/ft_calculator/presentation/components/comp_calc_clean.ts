@@ -15,8 +15,6 @@ export const execute = async (interaction: CommandInteraction) => {
     let clacMessage: Map<any, any> = getGlobalVariable("calc_message")
 
     if(clacMessage.has(interaction.user.id)) {
-
-        console.log("user:", interaction.id)
         const messages = clacMessage.get(interaction.user.id)
         for (let messageId of messages) {
             const message = await interaction.channel?.messages.fetch(messageId)
@@ -25,8 +23,6 @@ export const execute = async (interaction: CommandInteraction) => {
     }
 
     if(clacMessage.has(process.env.CLIENT_ID)) {
-        console.log("bot:", interaction.id);
-        
         const messages = clacMessage.get(process.env.CLIENT_ID)
         for (let messageId of messages) {
             const message = await interaction.channel?.messages.fetch(messageId)

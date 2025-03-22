@@ -25,7 +25,6 @@ export async function calc_handle(client: Client) {
             return 
         }
 
-
         const user: Map<string, boolean> = getGlobalVariable("calc_mode")
         if (!user || !(user.has(message.author.id))) return
           
@@ -33,7 +32,7 @@ export async function calc_handle(client: Client) {
             messages.get(message.author.id).push(message.id)
             setGlobalVariable("calc_message", messages)
         }
-        
+
         let calculation = message.content
         if (message.content.startsWith('+') ||
             message.content.startsWith('-') ||
