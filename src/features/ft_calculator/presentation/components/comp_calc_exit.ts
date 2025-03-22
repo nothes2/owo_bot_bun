@@ -7,7 +7,7 @@ export const execute = async (interaction: CommandInteraction) => {
     if(!user || !(user.has(interaction.user.id))) {
         await interaction.reply(
             {
-                content: "⚠️ You are not in the calculator environment!",
+                content: "⚠️ 你沒有進入計算模式!",
                 flags: MessageFlagsBitField.Flags.Ephemeral
             }
         )
