@@ -19,7 +19,7 @@ export const execute = async (interaction: CommandInteraction) => {
 
     await interaction.reply(
         {
-             content: "✅ you quit the calculator successfully!",
+             content: "✅ 成功退出計算模式!",
              flags: MessageFlagsBitField.Flags.Ephemeral
         }
     )
