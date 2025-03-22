@@ -5,7 +5,7 @@ import { MessageFlagsBitField, type CommandInteraction } from "discord.js";
 export const execute = async (interaction: CommandInteraction) => {
     init_data(interaction)
     await interaction.reply({
-        content: "ℹ️ entered calculator mode! Enter the calculation to display the result.",
+        content: "ℹ️ 已進入計算模式!",
         flags: MessageFlagsBitField.Flags.Ephemeral
     })
 }

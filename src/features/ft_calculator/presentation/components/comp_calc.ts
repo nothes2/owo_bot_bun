@@ -41,7 +41,7 @@ export async function calc_handle(client: Client) {
             let g_result = parseInt(getGlobalVariable("calc_result"))
 
             if (g_result === null) {
-                await message.reply("❌ you don't have a result! make sure u calcualated something before using this!")
+                await message.reply("❌ 請在使用此語法前先進行至少一項計算.")
                 return
             }
             calculation = g_result + calculation
@@ -49,12 +49,12 @@ export async function calc_handle(client: Client) {
         let result: BigNumber
         try {
             result = evaluate(calculation)
-            embed.setDescription(`result: ${result}`)
+            embed.setDescription(`計算結果 : ${result}`)
             setGlobalVariable("calc_result", result.toString())
             await message.reply({embeds: [embed]})
         } catch (e) {
             await message.reply({
-                content: "⚠️ invalid expression, remember you are in the caluator environment! use `/calc exit` to quit the calulator environment.",
+                content: "⚠️ 若要進行對話請先輸入 **`/calc exit`** 以退出計算模式.",
             })
             return
         }

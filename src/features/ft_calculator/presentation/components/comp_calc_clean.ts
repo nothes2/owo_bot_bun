@@ -6,7 +6,7 @@ export const execute = async (interaction: CommandInteraction) => {
 
     if(!getGlobalVariable("calc_mode") || !(getGlobalVariable("calc_mode").has(interaction.user.id))) {
         interaction.reply ({
-            content: "❌ you are not in a calc environment!",
+            content: "❌ 你沒有在計算模式!",
             flags: MessageFlagsBitField.Flags.Ephemeral
         })
         return
@@ -34,7 +34,7 @@ export const execute = async (interaction: CommandInteraction) => {
     init_data(interaction)
     await interaction.reply(
         {
-            content: "✅ result cleaned successfully!",
+            content: "✅ 成功清除紀錄.",
             flags: MessageFlagsBitField.Flags.Ephemeral
         }
     )
