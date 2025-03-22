@@ -1,4 +1,5 @@
 import { getGlobalVariable, setGlobalVariable } from "@core/global_variables";
+import { init_data } from "@features/ft_calculator/util/util";
 import { MessageFlagsBitField, type CommandInteraction } from "discord.js";
 
 export const execute = async (interaction: CommandInteraction) => {
@@ -14,6 +15,8 @@ export const execute = async (interaction: CommandInteraction) => {
     let clacMessage: Map<any, any> = getGlobalVariable("calc_message")
 
     if(clacMessage.has(interaction.user.id)) {
+
+        console.log("user:", interaction.id)
         const messages = clacMessage.get(interaction.user.id)
         for (let messageId of messages) {
             const message = await interaction.channel?.messages.fetch(messageId)
@@ -22,6 +25,8 @@ export const execute = async (interaction: CommandInteraction) => {
     }
 
     if(clacMessage.has(process.env.CLIENT_ID)) {
+        console.log("bot:", interaction.id);
+        
         const messages = clacMessage.get(process.env.CLIENT_ID)
         for (let messageId of messages) {
             const message = await interaction.channel?.messages.fetch(messageId)
@@ -30,8 +35,7 @@ export const execute = async (interaction: CommandInteraction) => {
         }
     }
 
-    setGlobalVariable("calc_message", new Map())
-    setGlobalVariable("calc_result", new Map())
+    init_data(interaction)
     await interaction.reply(
         {
             content: "✅ result cleaned successfully!",

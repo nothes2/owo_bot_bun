@@ -28,9 +28,13 @@ export async function calc_handle(client: Client) {
 
         const user: Map<string, boolean> = getGlobalVariable("calc_mode")
         if (!user || !(user.has(message.author.id))) return
-
+          
+        if(user.has(message.author.id) && messages.get(message.author.id)) {
+            messages.get(message.author.id).push(message.id)
+            setGlobalVariable("calc_message", messages)
+        }
+        
         let calculation = message.content
-
         if (message.content.startsWith('+') ||
             message.content.startsWith('-') ||
             message.content.startsWith('*') ||
@@ -41,8 +45,6 @@ export async function calc_handle(client: Client) {
                 await message.reply("❌ you don't have a result! make sure u calcualated something before using this!")
                 return
             }
-
-
             calculation = g_result + calculation
         }
         let result: BigNumber
@@ -50,22 +52,7 @@ export async function calc_handle(client: Client) {
             result = evaluate(calculation)
             embed.setDescription(`result: ${result}`)
             setGlobalVariable("calc_result", result.toString())
-
-            let user = getGlobalVariable("calc_mode")
-          
-
-            if(user.has(message.author.id) && messages.get(message.author.id)) {
-                messages.get(message.author.id).push(message.id)
-                setGlobalVariable("calc_message", messages)
-            }
-
-            await message.reply(
-                {
-                    embeds: [embed]
-                }
-            )
-       
-
+            await message.reply({embeds: [embed]})
         } catch (e) {
             await message.reply({
                 content: "⚠️ invalid expression, remember you are in the caluator environment! use `/calc exit` to quit the calulator environment.",
