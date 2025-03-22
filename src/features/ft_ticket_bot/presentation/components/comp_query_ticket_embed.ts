@@ -1,5 +1,7 @@
 import {type CommandInteraction, EmbedBuilder} from "discord.js";
 import {queryTicketController} from "@features/ft_ticket_bot/presentation/controller/c_ticket_bot.ts";
+import {setGlobalVariable} from "@core/global_variables.ts";
+import {TicketEmbed} from "@features/ft_ticket_bot/domain/entities/ticket_embed.ts";
 
 const embed = new EmbedBuilder()
 
@@ -16,12 +18,19 @@ export const execute = async (interaction: CommandInteraction) => {
     }
 
     let index = 0
+    let data_group : {
+        data: TicketEmbed,
+        index: number
+    }[] = []
+
     for (const value of result) {
         const user =  await interaction.client.users.fetch(value.user_id)
-        const username = user.username
-        content_str += `${index} \t- \t${value._id} \t- \t${username}\n`
+        content_str = `${index} | ${value._id} | ${user.username} | ${value.comment}`
+        data_group.push({data: value, index})
         index++
     }
+
+    setGlobalVariable("ticket_embed_group", data_group)
     embed.setDescription(content_str)
 
    await interaction.reply({
