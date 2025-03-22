@@ -1,0 +1,68 @@
+import { getGlobalVariable, setGlobalVariable } from "@core/global_variables";
+import { EmbedBuilder, MessageFlags, MessageFlagsBitField, type Client, type Message } from "discord.js";
+import { evaluate, log, type BigNumber } from "mathjs";
+
+const embed = new EmbedBuilder()
+
+export async function calc_handle(client: Client) {
+    client.on("messageCreate", async (message: Message) => {
+        let messages: Map<any, any> = getGlobalVariable("calc_message")
+        let userMode = getGlobalVariable("calc_mode")
+        if (message.author.bot) {
+            if(userMode.has(client.user?.id) && messages.has(client.user?.id)) {
+                messages.get(client.user?.id).push(message.id)
+                setGlobalVariable("calc_message", messages)
+            }  
+            return 
+        }
+        const user: Map<string, boolean> = getGlobalVariable("calc_mode")
+        if (!(user.has(message.author.id))) return
+
+        let calculation = message.content
+
+        if (message.content.startsWith('+') ||
+            message.content.startsWith('-') ||
+            message.content.startsWith('*') ||
+            message.content.startsWith('/')) {
+            let g_result = getGlobalVariable("calc_result")
+
+            if (!g_result) {
+                await message.reply("❌ you don't have a result! make sure u calcualated something before using this!")
+                return
+            }
+
+
+            calculation = g_result + calculation
+        }
+        let result: BigNumber
+        try {
+            result = evaluate(calculation)
+            embed.setDescription(`result: ${result}`)
+            setGlobalVariable("calc_result", result)
+
+            let user = getGlobalVariable("calc_mode")
+          
+
+            if(user.has(message.author.id) && messages.get(message.author.id)) {
+                messages.get(message.author.id).push(message.id)
+                setGlobalVariable("calc_message", messages)
+            }
+
+            await message.reply(
+                {
+                    embeds: [embed]
+                }
+            )
+       
+
+        } catch (e) {
+            console.log(e);
+            
+            await message.reply({
+                content: "⚠️ invalid expression, remembe you are in the caluator environment! use `/calc exit` to quit the calulator environment.",
+            })
+            return
+        }
+
+    })
+}

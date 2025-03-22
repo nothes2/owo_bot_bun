@@ -6,6 +6,7 @@ import {mongoConnect} from "@core/db/mongo.ts";
 import {handle_modal_submit, handle_select_menu} from "@features/ft_ticket_bot/presentation/components/comp_event_handler.ts";
 import {setGlobalVariable} from "@core/global_variables.ts";
 import {format_ticket_code} from "@core/utils/utils.ts";
+import { calc_handle } from "@features/ft_calculator/presentation/components/comp_calc.ts";
 
 (async function startBot() {
     try {
@@ -21,6 +22,7 @@ import {format_ticket_code} from "@core/utils/utils.ts";
             setGlobalVariable("ticket_code", format_ticket_code(ticket_code, 4));
             await setupCommandHandler(client).catch(err => console.log(err));
             await handle_select_menu(client);
+            await calc_handle(client);
             handle_modal_submit(client);
             console.log(`🚀 The bot ${client.user.username} is ready!`);
         });

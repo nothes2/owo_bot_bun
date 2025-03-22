@@ -1,10 +1,8 @@
 import {
     ActionRowBuilder,
-    type ActionRowData, type AnyComponentBuilder,
-    type APIMessageActionRowComponent, ButtonBuilder,
     type Client,
-    EmbedBuilder, type JSONEncodable,
-    type Message, StringSelectMenuBuilder,
+    EmbedBuilder,
+    type Message,
     TextChannel
 } from "discord.js";
 import {queryMessageController} from "@features/ft_ticket_bot/presentation/controller/c_message.ts";
@@ -51,3 +49,5 @@ export const revive_message = async (client: Client) => {
 
 
 }
+
+//  TODO need to be fix, about the data format for actionRow
