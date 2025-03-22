@@ -1,6 +1,6 @@
 import { getGlobalVariable, setGlobalVariable } from "@core/global_variables";
-import { EmbedBuilder, MessageFlags, MessageFlagsBitField, type Client, type Message } from "discord.js";
-import { evaluate, log, type BigNumber } from "mathjs";
+import { EmbedBuilder, type Client, type Message } from "discord.js";
+import { evaluate, type BigNumber } from "mathjs";
 
 const embed = new EmbedBuilder()
 
@@ -8,13 +8,25 @@ export async function calc_handle(client: Client) {
     client.on("messageCreate", async (message: Message) => {
         let messages: Map<any, any> = getGlobalVariable("calc_message")
         let userMode = getGlobalVariable("calc_mode")
+
+        if(message.type === 20) return
+
         if (message.author.bot) {
+            if(!userMode) {
+                return
+            }
+
             if(userMode.has(client.user?.id) && messages.has(client.user?.id)) {
+                console.log("saving bot message");
+                
                 messages.get(client.user?.id).push(message.id)
                 setGlobalVariable("calc_message", messages)
+                
             }  
             return 
         }
+
+
         const user: Map<string, boolean> = getGlobalVariable("calc_mode")
         if (!(user.has(message.author.id))) return
 
@@ -56,8 +68,6 @@ export async function calc_handle(client: Client) {
        
 
         } catch (e) {
-            console.log(e);
-            
             await message.reply({
                 content: "⚠️ invalid expression, remembe you are in the caluator environment! use `/calc exit` to quit the calulator environment.",
             })

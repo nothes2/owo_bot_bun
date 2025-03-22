@@ -4,7 +4,7 @@ import { MessageFlagsBitField, type CommandInteraction } from "discord.js";
 export const execute = async (interaction: CommandInteraction) => {
     const user: Map<string, boolean> = getGlobalVariable("calc_mode")
 
-    if(!(user.has(interaction.user.id))) {
+    if(!user || !(user.has(interaction.user.id))) {
         await interaction.reply(
             {
                 content: "⚠️ You are not in the calculator environment!",

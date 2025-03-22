@@ -3,7 +3,7 @@ import { MessageFlagsBitField, type CommandInteraction } from "discord.js";
 
 export const execute = async (interaction: CommandInteraction) => {
 
-    if(!(getGlobalVariable("calc_mode").has(interaction.user.id))) {
+    if(!getGlobalVariable("calc_mode") || !(getGlobalVariable("calc_mode").has(interaction.user.id))) {
         interaction.reply ({
             content: "❌ you are not in a calc environment!",
             flags: MessageFlagsBitField.Flags.Ephemeral
@@ -16,19 +16,17 @@ export const execute = async (interaction: CommandInteraction) => {
     if(clacMessage.has(interaction.user.id)) {
         const messages = clacMessage.get(interaction.user.id)
         for (let messageId of messages) {
-            console.log("getting message: ", messageId);
             const message = await interaction.channel?.messages.fetch(messageId)
-            await message?.delete
-
+            await message?.delete()
         }
     }
 
     if(clacMessage.has(process.env.CLIENT_ID)) {
         const messages = clacMessage.get(process.env.CLIENT_ID)
         for (let messageId of messages) {
-            console.log("getting message: ", messageId);
+            console.log("getting bot message: ", messageId);
             const message = await interaction.channel?.messages.fetch(messageId)
-            await message?.delete
+            await message?.delete()
         }
     }
 
