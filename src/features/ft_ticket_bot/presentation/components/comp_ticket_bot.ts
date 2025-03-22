@@ -1,4 +1,4 @@
-import {type CommandInteraction, SlashCommandBuilder} from "discord.js";
+import {type CommandInteraction, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import {execute as setEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_set_ticket_emebed.ts"
 import {execute as queryEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_query_ticket_embed.ts"
 import {execute as showEmbedExec} from "@features/ft_ticket_bot/presentation/components/comp_show_ticket.ts"
@@ -36,7 +36,7 @@ const command = new SlashCommandBuilder()
                     .setName("index")
                     .setDescription("query the embed by index")
                     .setRequired(false))
-    )
+    ).setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
 
 
 const execute = async (interaction: any) => {

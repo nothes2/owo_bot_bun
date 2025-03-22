@@ -24,9 +24,9 @@ export const execute = async (interaction: CommandInteraction) => {
     if(clacMessage.has(process.env.CLIENT_ID)) {
         const messages = clacMessage.get(process.env.CLIENT_ID)
         for (let messageId of messages) {
-            console.log("getting bot message: ", messageId);
             const message = await interaction.channel?.messages.fetch(messageId)
-            await message?.delete()
+            if(!message) continue
+            await message.delete()
         }
     }
 

@@ -1,4 +1,4 @@
-import {type CommandInteraction, SlashCommandBuilder} from "discord.js";
+import {type CommandInteraction, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import {execute as calcEnterExec} from "@features/ft_calculator/presentation/components/comp_calc_enter"
 import {execute as calcExitExec} from "@features/ft_calculator/presentation/components/comp_calc_exit"
 import {execute as calcHistroyExec} from "@features/ft_calculator/presentation/components/comp_calc_history"
@@ -7,6 +7,7 @@ const command = new SlashCommandBuilder().setName("calc").setDescription("enter 
     .addSubcommand(command => command.setName("enter").setDescription("enter the calc mode"))
     .addSubcommand(command => command.setName("exit").setDescription("exit calc mode"))
     .addSubcommand(command => command.setName("clean").setDescription("clean the result"))
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
 
 const execute = async (interaction: any) => {
     if(!(interaction.commandName === "calc")) return
