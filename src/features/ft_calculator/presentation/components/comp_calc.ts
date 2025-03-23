@@ -67,7 +67,7 @@ export async function calc_handle(client: Client) {
             await message.reply({ embeds: [embed] })
         } catch (e) {
             await message.reply({
-                content: "⚠️ 检测到非数学语法，退出计算模式",
+                content: "⚠️ 已自動退出計算模式!",
             })
 
             user.delete(message.author.id)
