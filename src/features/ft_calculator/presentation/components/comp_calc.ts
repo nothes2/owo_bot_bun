@@ -1,7 +1,7 @@
 import { getGlobalVariable, setGlobalVariable } from "@core/global_variables";
 import { EmbedBuilder, type Client, type Message } from "discord.js";
 import { evaluate, log, type BigNumber } from "mathjs";
-import { url } from "node:inspector";
+import { execute as calcExitExec } from "@features/ft_calculator/presentation/components/comp_calc_exit"
 
 const embed = new EmbedBuilder()
 
@@ -10,26 +10,26 @@ export async function calc_handle(client: Client) {
         let messages: Map<any, any> = getGlobalVariable("calc_message")
         let userMode = getGlobalVariable("calc_mode")
 
-        if(message.type === 20) return
+        if (message.type === 20) return
 
         if (message.author.bot) {
 
-            if(message.author.username !== "MIYU") return
+            if (message.author.username !== "MIYU") return
 
-            if(!userMode) {
+            if (!userMode) {
                 return
             }
-            if(userMode.has(client.user?.id) && messages.has(client.user?.id)) {
-               messages.get(client.user?.id).push(message.id)
-               setGlobalVariable("calc_message", messages)
-            }  
-            return 
+            if (userMode.has(client.user?.id) && messages.has(client.user?.id)) {
+                messages.get(client.user?.id).push(message.id)
+                setGlobalVariable("calc_message", messages)
+            }
+            return
         }
 
         const user: Map<string, boolean> = getGlobalVariable("calc_mode")
         if (!user || !(user.has(message.author.id))) return
-          
-        if(user.has(message.author.id) && messages.get(message.author.id)) {
+
+        if (user.has(message.author.id) && messages.get(message.author.id)) {
             messages.get(message.author.id).push(message.id)
             setGlobalVariable("calc_message", messages)
         }
@@ -64,11 +64,14 @@ export async function calc_handle(client: Client) {
             })
 
             setGlobalVariable("calc_result", result.toString())
-            await message.reply({embeds: [embed]})
+            await message.reply({ embeds: [embed] })
         } catch (e) {
             await message.reply({
-                content: "⚠️ 若要進行對話請先輸入 **`/calc exit`** 以退出計算模式.",
+                content: "⚠️ 检测到非数学语法，退出计算模式",
             })
+
+            user.delete(message.author.id)
+            setGlobalVariable("calc_mode", user)
             return
         }
 
