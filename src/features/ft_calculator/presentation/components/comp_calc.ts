@@ -56,7 +56,7 @@ export async function calc_handle(client: Client) {
                 name: `${message.guild?.name} 計算機`,
                 iconURL: message.guild?.iconURL() || undefined
             })
-            embed.setDescription(`## **<a:990512686158737409:1332543398225383606> 計算結果** : \`${result}\``)
+            embed.setDescription(`## **計算結果** : \`${result}\``)
             embed.setColor(0xFF13F0)
             embed.setFooter({
                 text: `${message.author.username}`,
